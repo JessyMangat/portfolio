@@ -36,11 +36,11 @@ li, a, button {
 
 .nav_links li a {
     transition: all 0.3s ease 0s;
-    color: white;
+    color: black;
 }
 
 .nav_links li a:hover {
-    color: #F29A93;
+    color: white;
     text-decoration: underline;
 }
 
@@ -57,7 +57,7 @@ li, a, button {
     background: #000;
     position: relative;
     overflow: hidden;
-    background: url(./Images/hero.png);
+    background: url(./Images/hero.webp);
     background-size: cover;
   }
   
@@ -156,7 +156,7 @@ li, a, button {
   flex: 1;
 }
 
-.portfolio-description h6{
+.portfolio-description > h6{
   font-size: 1.5rem;
   text-decoration: uppercase;
   font-weight: 300;
@@ -194,22 +194,24 @@ li, a, button {
   width: 100vw;
   height: auto;
 }
-.flex-grid {
-	display: flex;
-  flex-flow: row wrap;
-  justify-content: space-evenly;
-  padding-left: 5rem;
-  padding-right: 5rem;
+
+.skills {
+  display: flex;
+  justify-content: space-around;
 }
 
-.column {
-  flex: 2;
+.skill_category {
+  display: grid;
 }
 
-.column img{
-  height: 64px;
-  width: auto;
-  margin-bottom: 5rem;
+.skill_category > h1{
+  color: #F29A93;
+  padding-bottom: 5rem;
+}
+
+.skill_category > img {
+  height: 100px;
+  width: 100px;
 }
 
 .contact_section {
