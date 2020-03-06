@@ -36,11 +36,11 @@ li, a, button {
 
 .nav_links li a {
     transition: all 0.3s ease 0s;
-    color: black;
+    color: #FFF;
 }
 
 .nav_links li a:hover {
-    color: white;
+    color: #F29A93;
     
 }
 
@@ -54,10 +54,9 @@ li, a, button {
 .hero{
     width: 100%;
     height: 100vh;
-    background: #000;
+    background: #2D3038;
     position: relative;
     overflow: hidden;
-    background: url(./Images/hero.webp);
     background-size: cover;
   }
   
@@ -81,7 +80,7 @@ li, a, button {
     margin-bottom: 20px;
   }
   .page-content p{
-    color: black;
+    color: #FFF;
     margin-bottom: 20px;
   }
   .page-content a{
@@ -188,6 +187,14 @@ li, a, button {
   padding: 40px 0;
   width: 100vw;
   height: auto;
+}
+
+@media screen and (max-width: 769px) {
+  .skills {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  }
 }
 
 .skills_section{
