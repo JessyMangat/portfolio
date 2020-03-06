@@ -41,7 +41,7 @@ li, a, button {
 
 .nav_links li a:hover {
     color: white;
-    text-decoration: underline;
+    
 }
 
 .border {
@@ -199,16 +199,18 @@ li, a, button {
 
 .skills {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .skill_category {
   display: grid;
+  grid-template-columns: 100px 100px;
+  grid-gap: 2rem;
 }
 
-.skill_category > h1{
-  color: #F29A93;
-  padding-bottom: 5rem;
+.skill_category > h5{
+  color: #FFF;
+  text-align: center;
 }
 
 .skill_category > img {
