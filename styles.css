@@ -81,21 +81,23 @@ li, a, button {
     margin-bottom: 20px;
   }
   .page-content p{
-    color: #fff;
+    color: black;
     margin-bottom: 20px;
   }
   .page-content a{
     display: inline-block;
     text-decoration: none;
-    color: #F29A93;
+    color: #fff;
     border: 2px solid #F29A93;
+    background: #F29A93;
     text-transform: uppercase;
     padding: 10px 20px;
     transition: 0.4s linear;
   }
   .page-content a:hover{
-    color: #fff;
-    background: #F29A93;
+    color: #F29A93;
+    background: #fff;
+    border: 2px solid #fff;
   }
   .text{
     padding: 10px;
