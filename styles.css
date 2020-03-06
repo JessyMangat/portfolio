@@ -149,7 +149,7 @@ li, a, button {
   flex: 1;
 }
 
-.has-margin-right {
+.left-column {
   margin-right: 2rem;
 }
 
@@ -269,6 +269,12 @@ textarea.contact-form-text{
 }
 .contact-form-btn:hover{
   background: #F29A93;
+}
+
+label {
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: #333;
 }
 
 .footer {
