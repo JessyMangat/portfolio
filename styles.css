@@ -128,40 +128,39 @@ li, a, button {
     margin: 40px auto;
   }
 
-.projects-container{
-  max-width: 120rem;
-  height: 100%;
-  margin: 0 auto;
-  position: relative;
-}
-
 .portfolio-item{
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 40% 40%;
+  grid-gap: 2rem;
   justify-content: center;
-  margin-bottom: 5rem;
-  margin-left: 5rem;
-  margin-right: 5rem;
+  align-items: center;
+  
 }
 
-.portfolio-item :last-child{
-  margin-bottom: 0;
-}
-
-.portfolio-img{
-  flex: 1;
-}
-
-.left-column {
+@media screen and (max-width: 769px) {
+  .portfolio-item {
+  display: grid;
+  grid-template-columns: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  margin-left: 2rem;
   margin-right: 2rem;
+  }
+
+  .odd-item{
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .odd-item img{
+    margin-bottom: 2rem;
+  }
 }
 
-.portfolio-description {
-  flex: 1;
-}
-
-.portfolio-description > h6{
+.portfolio-description h6{
   font-size: 1rem;
+  text-transform: uppercase;
   text-decoration: uppercase;
   font-weight: 300;
   color: #333;
