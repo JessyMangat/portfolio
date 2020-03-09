@@ -24,6 +24,7 @@ li, a, button {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    padding-top: 1rem;
 }
 
 .nav_links {
@@ -279,11 +280,6 @@ textarea.contact-form-text{
   background: #F29A93;
 }
 
-label {
-  font-size: 0.8rem;
-  font-weight: 300;
-  color: #333;
-}
 
 .footer {
   padding: 40px 0;
