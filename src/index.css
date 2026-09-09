@@ -29,3 +29,12 @@ body {
 .rise-in {
   animation: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

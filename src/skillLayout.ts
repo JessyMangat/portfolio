@@ -26,6 +26,7 @@ interface SkillBase {
   Icon: IconType
   color: string
   size: number
+  url: string
 }
 
 export interface PlacedSkill extends SkillBase {
@@ -35,26 +36,26 @@ export interface PlacedSkill extends SkillBase {
 }
 
 const SKILL_BASE: SkillBase[] = [
-  { Icon: SiReact, color: '#61DAFB', size: 110 },
-  { Icon: SiGit, color: '#F05032', size: 80 },
-  { Icon: SiMongodb, color: '#47A248', size: 110 },
-  { Icon: SiLaravel, color: '#FF2D20', size: 90 },
-  { Icon: SiSwift, color: '#F05138', size: 95 },
-  { Icon: SiKotlin, color: '#7F52FF', size: 85 },
-  { Icon: SiTypescript, color: '#3178C6', size: 95 },
-  { Icon: SiNodedotjs, color: '#5FA04E', size: 110 },
-  { Icon: SiTailwindcss, color: '#38BDF8', size: 90 },
-  { Icon: SiFirebase, color: '#FFCA28', size: 95 },
-  { Icon: SiPhp, color: '#777BB4', size: 85 },
-  { Icon: SiGooglecloud, color: '#4285F4', size: 85 },
-  { Icon: SiDocker, color: '#2496ED', size: 75 },
-  { Icon: SiJavascript, color: '#F7DF1E', size: 80 },
-  { Icon: SiHtml5, color: '#E34F26', size: 80 },
-  { Icon: SiNextdotjs, color: '#ffffff', size: 90 },
-  { Icon: SiWebrtc, color: '#ffffff', size: 75 },
-  { Icon: SiExpress, color: '#ffffff', size: 80 },
-  { Icon: SiMysql, color: '#4479A1', size: 85 },
-  { Icon: SiSass, color: '#CC6699', size: 85 },
+  { Icon: SiReact, color: '#61DAFB', size: 110, url: 'https://react.dev' },
+  { Icon: SiGit, color: '#F05032', size: 80, url: 'https://git-scm.com' },
+  { Icon: SiMongodb, color: '#47A248', size: 110, url: 'https://www.mongodb.com' },
+  { Icon: SiLaravel, color: '#FF2D20', size: 90, url: 'https://laravel.com' },
+  { Icon: SiSwift, color: '#F05138', size: 95, url: 'https://www.swift.org' },
+  { Icon: SiKotlin, color: '#7F52FF', size: 85, url: 'https://kotlinlang.org' },
+  { Icon: SiTypescript, color: '#3178C6', size: 95, url: 'https://www.typescriptlang.org' },
+  { Icon: SiNodedotjs, color: '#5FA04E', size: 110, url: 'https://nodejs.org' },
+  { Icon: SiTailwindcss, color: '#38BDF8', size: 90, url: 'https://tailwindcss.com' },
+  { Icon: SiFirebase, color: '#FFCA28', size: 95, url: 'https://firebase.google.com' },
+  { Icon: SiPhp, color: '#777BB4', size: 85, url: 'https://www.php.net' },
+  { Icon: SiGooglecloud, color: '#4285F4', size: 85, url: 'https://cloud.google.com' },
+  { Icon: SiDocker, color: '#2496ED', size: 75, url: 'https://www.docker.com' },
+  { Icon: SiJavascript, color: '#F7DF1E', size: 80, url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript' },
+  { Icon: SiHtml5, color: '#E34F26', size: 80, url: 'https://developer.mozilla.org/en-US/docs/Web/HTML' },
+  { Icon: SiNextdotjs, color: '#ffffff', size: 90, url: 'https://nextjs.org' },
+  { Icon: SiWebrtc, color: '#ffffff', size: 75, url: 'https://webrtc.org' },
+  { Icon: SiExpress, color: '#ffffff', size: 80, url: 'https://expressjs.com' },
+  { Icon: SiMysql, color: '#4479A1', size: 85, url: 'https://www.mysql.com' },
+  { Icon: SiSass, color: '#CC6699', size: 85, url: 'https://sass-lang.com' },
 ]
 
 // Deterministic PRNG (mulberry32) so a given seed always reproduces the same

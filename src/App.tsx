@@ -43,6 +43,7 @@ function App() {
   const subtitleRef = useRef<HTMLParagraphElement>(null)
   const link1Ref = useRef<HTMLAnchorElement>(null)
   const link2Ref = useRef<HTMLAnchorElement>(null)
+  const trayRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     let frame = 0
@@ -53,14 +54,16 @@ function App() {
         haloRef.current.style.setProperty('--hy', `${clientY}px`)
       }
 
+      // only relevant at lg+ where the scattered icon layer is actually
+      // visible — harmless no-op elsewhere since that layer is display:none
       for (const el of iconRefs.current) {
         if (!el) continue
         const rect = el.getBoundingClientRect()
         const dist = Math.hypot(clientX - (rect.left + rect.width / 2), clientY - (rect.top + rect.height / 2))
         const t = Math.max(0, 1 - dist / ICON_RADIUS)
-        const intensity = t * t
-        el.style.opacity = String(intensity)
-        el.style.filter = `drop-shadow(0 0 10px rgba(0,0,0,0.55)) drop-shadow(0 0 ${14 * intensity}px currentColor)`
+        const opacity = t * t
+        el.style.opacity = String(opacity)
+        el.style.filter = `drop-shadow(0 0 10px rgba(0,0,0,0.55)) drop-shadow(0 0 ${14 * opacity}px currentColor)`
       }
 
       for (const el of [nameRef.current, subtitleRef.current, link1Ref.current, link2Ref.current]) {
@@ -79,11 +82,70 @@ function App() {
       })
     }
 
+    const onTouch = (e: TouchEvent) => {
+      const touch = e.touches[0]
+      if (!touch || frame) return
+      frame = requestAnimationFrame(() => {
+        update(touch.clientX, touch.clientY)
+        frame = 0
+      })
+    }
+
     update(window.innerWidth / 2, window.innerHeight * 0.32)
     window.addEventListener('mousemove', onMove)
+    window.addEventListener('touchstart', onTouch, { passive: true })
+    window.addEventListener('touchmove', onTouch, { passive: true })
     return () => {
       window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('touchstart', onTouch)
+      window.removeEventListener('touchmove', onTouch)
       cancelAnimationFrame(frame)
+    }
+  }, [])
+
+  // Tray auto-scroll: creeps sideways on its own, pauses for 15s after the
+  // user touches/scrolls it themselves, then quietly resumes. The tray
+  // renders the icon set twice back to back so the wrap from the second
+  // copy back to the first is seamless — no visible jump.
+  useEffect(() => {
+    const tray = trayRef.current
+    if (!tray) return
+
+    const PAUSE_MS = 15000
+    const SPEED_PX_PER_FRAME = 0.35
+    let lastInteraction = 0
+    let frame = 0
+    // element.scrollLeft rounds to whole pixels, so accumulating a
+    // sub-pixel step by reading it back each frame would round-trip to
+    // zero forever. Track true position ourselves instead.
+    let position = tray.scrollLeft
+
+    const onInteract = () => {
+      lastInteraction = Date.now()
+    }
+    tray.addEventListener('touchstart', onInteract, { passive: true })
+    tray.addEventListener('wheel', onInteract, { passive: true })
+
+    const step = () => {
+      frame = requestAnimationFrame(step)
+      if (Date.now() - lastInteraction < PAUSE_MS) {
+        position = tray.scrollLeft // stay in sync with any manual scrolling while paused
+        return
+      }
+      const halfWidth = tray.scrollWidth / 2
+      if (halfWidth <= 0) return
+      position += SPEED_PX_PER_FRAME
+      if (position >= halfWidth) {
+        position -= halfWidth
+      }
+      tray.scrollLeft = position
+    }
+    frame = requestAnimationFrame(step)
+
+    return () => {
+      cancelAnimationFrame(frame)
+      tray.removeEventListener('touchstart', onInteract)
+      tray.removeEventListener('wheel', onInteract)
     }
   }, [])
 
@@ -99,9 +161,11 @@ function App() {
         }}
       />
 
-      {/* skill logos: invisible except where the beam lands, intensity fades continuously with distance */}
-      <div className="pointer-events-none fixed inset-0 z-0">
-        {skills.map(({ Icon, color, top, left, size, rotate }, i) => (
+      {/* skill logos: invisible except where the beam lands, intensity fades continuously with
+          distance. Only makes sense with a cursor to chase, so it's desktop-only (xl+, 1280px) —
+          that keeps iPad Pro's 1024-wide portrait mode on the draggable tray below instead. */}
+      <div className="pointer-events-none fixed inset-0 z-0 hidden xl:block">
+        {skills.map(({ Icon, color, top, left, size, rotate, url }, i) => (
           <span
             key={i}
             ref={(el) => {
@@ -110,7 +174,15 @@ function App() {
             className="absolute opacity-0"
             style={{ top, left, transform: `translate(-50%, -50%) rotate(${rotate}deg)` }}
           >
-            <Icon style={{ width: size, height: size, color }} />
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pointer-events-auto block cursor-pointer"
+              aria-label={url.replace(/^https?:\/\//, '')}
+            >
+              <Icon style={{ width: size, height: size, color }} />
+            </a>
           </span>
         ))}
       </div>
@@ -152,6 +224,36 @@ function App() {
           >
             hello@jessymangat.com
           </a>
+        </div>
+
+        {/* iPad (including 1024-wide Pro portrait) and smaller: a draggable tray instead of the
+            cursor-chasing scatter layer. my-auto centers it in the leftover space below the
+            links, halfway between the text and the bottom of the page. Bleeds edge-to-edge
+            (cancels the parent's px-6) so icons can scroll flush with the screen; the scrollbar
+            is hidden via .no-scrollbar and a mask fades each edge so the off-screen icons waiting
+            to be dragged in read as an intentional "there's more". The icon set is rendered
+            twice back to back so the auto-scroll loop (below) can wrap seamlessly, and chip/icon
+            sizes step up at the md breakpoint for tablets vs phones. */}
+        <div
+          ref={trayRef}
+          className="no-scrollbar -mx-6 my-auto flex w-[calc(100%+3rem)] gap-5 overflow-x-auto overscroll-x-contain px-6 py-2 xl:hidden"
+          style={{
+            WebkitMaskImage: 'linear-gradient(to right, transparent, black 28px, black calc(100% - 28px), transparent)',
+            maskImage: 'linear-gradient(to right, transparent, black 28px, black calc(100% - 28px), transparent)',
+          }}
+        >
+          {[...skills, ...skills].map(({ Icon, color, url }, i) => (
+            <a
+              key={i}
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-20 w-20 shrink-0 cursor-pointer items-center justify-center rounded-2xl bg-fg/5 md:h-28 md:w-28"
+              aria-label={url.replace(/^https?:\/\//, '')}
+            >
+              <Icon className="h-9.5 w-9.5 md:h-13.5 md:w-13.5" style={{ color }} />
+            </a>
+          ))}
         </div>
       </div>
     </main>
