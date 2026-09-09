@@ -111,7 +111,7 @@ function App() {
     const tray = trayRef.current
     if (!tray) return
 
-    const PAUSE_MS = 15000
+    const PAUSE_MS = 3000
     const SPEED_PX_PER_FRAME = 0.35
     let lastInteraction = 0
     let frame = 0
@@ -126,18 +126,29 @@ function App() {
     tray.addEventListener('touchstart', onInteract, { passive: true })
     tray.addEventListener('wheel', onInteract, { passive: true })
 
+    // Fires for every scroll change — auto-advance, wheel, or a manual touch
+    // drag alike — so dragging past either copy of the duplicated list loops
+    // too, not just the automated advance. Both copies are pixel-identical,
+    // so snapping the position back by one half-width is invisible.
+    const onScroll = () => {
+      const halfWidth = tray.scrollWidth / 2
+      if (halfWidth <= 0) return
+      if (tray.scrollLeft >= halfWidth) {
+        tray.scrollLeft -= halfWidth
+      } else if (tray.scrollLeft < 0) {
+        tray.scrollLeft += halfWidth
+      }
+      position = tray.scrollLeft
+    }
+    tray.addEventListener('scroll', onScroll, { passive: true })
+
     const step = () => {
       frame = requestAnimationFrame(step)
       if (Date.now() - lastInteraction < PAUSE_MS) {
         position = tray.scrollLeft // stay in sync with any manual scrolling while paused
         return
       }
-      const halfWidth = tray.scrollWidth / 2
-      if (halfWidth <= 0) return
       position += SPEED_PX_PER_FRAME
-      if (position >= halfWidth) {
-        position -= halfWidth
-      }
       tray.scrollLeft = position
     }
     frame = requestAnimationFrame(step)
@@ -146,6 +157,7 @@ function App() {
       cancelAnimationFrame(frame)
       tray.removeEventListener('touchstart', onInteract)
       tray.removeEventListener('wheel', onInteract)
+      tray.removeEventListener('scroll', onScroll)
     }
   }, [])
 
