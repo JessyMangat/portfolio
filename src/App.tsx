@@ -1,57 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
-import {
-  SiReact,
-  SiTypescript,
-  SiNodedotjs,
-  SiMongodb,
-  SiMysql,
-  SiNextdotjs,
-  SiTailwindcss,
-  SiDocker,
-  SiExpress,
-  SiGit,
-  SiJavascript,
-  SiHtml5,
-  SiSass,
-  SiLaravel,
-  SiFirebase,
-  SiWebrtc,
-  SiPhp,
-  SiSwift,
-  SiKotlin,
-  SiGooglecloud,
-} from 'react-icons/si'
-
-const skills = [
-  // left column
-  { Icon: SiReact, color: '#61DAFB', top: '8%', left: '9%', size: 110, rotate: -8 },
-  { Icon: SiGit, color: '#F05032', top: '24%', left: '5%', size: 80, rotate: -4 },
-  { Icon: SiMongodb, color: '#47A248', top: '40%', left: '10%', size: 110, rotate: -6 },
-  { Icon: SiLaravel, color: '#FF2D20', top: '56%', left: '6%', size: 90, rotate: 5 },
-  { Icon: SiSwift, color: '#F05138', top: '72%', left: '11%', size: 95, rotate: -5 },
-  { Icon: SiKotlin, color: '#7F52FF', top: '84%', left: '7%', size: 85, rotate: 4 },
-
-  // right column
-  { Icon: SiTypescript, color: '#3178C6', top: '10%', left: '90%', size: 95, rotate: 6 },
-  { Icon: SiNodedotjs, color: '#5FA04E', top: '26%', left: '86%', size: 110, rotate: 5 },
-  { Icon: SiTailwindcss, color: '#38BDF8', top: '42%', left: '92%', size: 90, rotate: 4 },
-  { Icon: SiFirebase, color: '#FFCA28', top: '58%', left: '87%', size: 95, rotate: -3 },
-  { Icon: SiPhp, color: '#777BB4', top: '74%', left: '91%', size: 85, rotate: 6 },
-  { Icon: SiGooglecloud, color: '#4285F4', top: '92%', left: '92%', size: 85, rotate: -4 },
-
-  // top band
-  { Icon: SiDocker, color: '#2496ED', top: '5%', left: '35%', size: 75, rotate: 3 },
-  { Icon: SiJavascript, color: '#F7DF1E', top: '4%', left: '50%', size: 80, rotate: 0 },
-  { Icon: SiHtml5, color: '#E34F26', top: '6%', left: '65%', size: 80, rotate: -3 },
-
-  // bottom band
-  { Icon: SiNextdotjs, color: '#ffffff', top: '84%', left: '18%', size: 90, rotate: -3 },
-  { Icon: SiWebrtc, color: '#ffffff', top: '80%', left: '50%', size: 75, rotate: 2 },
-  { Icon: SiExpress, color: '#ffffff', top: '84%', left: '78%', size: 80, rotate: 7 },
-  { Icon: SiMysql, color: '#4479A1', top: '92%', left: '32%', size: 85, rotate: -5 },
-  { Icon: SiSass, color: '#CC6699', top: '92%', left: '66%', size: 85, rotate: 5 },
-]
+import { layoutSkills } from './skillLayout'
 
 // Twice the previous reach. Icons and text are driven directly (opacity /
 // background-position) from real distance-to-cursor every frame, computed
@@ -87,6 +36,7 @@ const linkLit: CSSProperties = {
 }
 
 function App() {
+  const [skills] = useState(() => layoutSkills(window.innerWidth, window.innerHeight))
   const haloRef = useRef<HTMLDivElement>(null)
   const iconRefs = useRef<(HTMLSpanElement | null)[]>([])
   const nameRef = useRef<HTMLHeadingElement>(null)
