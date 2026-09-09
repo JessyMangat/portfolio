@@ -2,8 +2,7 @@ export const HERO_NAME = 'Jessy Mangat'
 export const HERO_TITLE = 'Senior Software Developer · Toronto, ON'
 export const GITHUB_URL = 'https://github.com/JessyMangat'
 export const GITHUB_LABEL = 'github.com/JessyMangat'
-export const EMAIL = 'hello@jessymangat.com'
-export const EMAIL_HREF = `mailto:${EMAIL}`
+export const CONTACT_LABEL = 'Get in touch'
 
 export const HALO_RADIUS_PX = 640
 export const HALO_OPACITY = 0.16

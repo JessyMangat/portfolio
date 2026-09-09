@@ -1,6 +1,6 @@
+import { useState } from 'react'
 import {
-  EMAIL,
-  EMAIL_HREF,
+  CONTACT_LABEL,
   GITHUB_LABEL,
   GITHUB_URL,
   HERO_NAME,
@@ -10,18 +10,21 @@ import {
   SUBTITLE_REST_COLOR,
 } from '../constants'
 import { litTextStyle } from '../utils/litText'
+import { ContactModal } from './ContactModal'
 
 interface HeroProps {
   setTextRef: (index: number) => (el: HTMLElement | null) => void
 }
 
 export function Hero({ setTextRef }: HeroProps) {
+  const [contactOpen, setContactOpen] = useState(false)
+
   return (
     <>
       <h1
         ref={setTextRef(0)}
         style={litTextStyle(NAME_REST_COLOR)}
-        className="rise-in pointer-events-auto font-display text-6xl leading-none font-bold sm:text-7xl"
+        className="rise-in pointer-events-auto font-display text-4xl leading-none font-bold sm:text-6xl lg:text-7xl"
       >
         {HERO_NAME}
       </h1>
@@ -45,15 +48,18 @@ export function Hero({ setTextRef }: HeroProps) {
         >
           {GITHUB_LABEL}
         </a>
-        <a
+        <button
+          type="button"
           ref={setTextRef(3)}
-          href={EMAIL_HREF}
-          style={litTextStyle(LINK_REST_COLOR)}
-          className="cursor-pointer underline decoration-fg/20 underline-offset-4"
+          onClick={() => setContactOpen(true)}
+          style={litTextStyle(NAME_REST_COLOR)}
+          className="cursor-pointer text-center underline decoration-fg/20 underline-offset-4"
         >
-          {EMAIL}
-        </a>
+          {CONTACT_LABEL}
+        </button>
       </div>
+
+      {contactOpen && <ContactModal onClose={() => setContactOpen(false)} />}
     </>
   )
 }
