@@ -199,12 +199,15 @@ function App() {
         ))}
       </div>
 
-      {/* content — the only copies of this text; the light is painted directly onto them */}
-      <div className="relative z-10 flex min-h-svh flex-col items-center px-6 pt-[16vh] text-center">
+      {/* content — the only copies of this text; the light is painted directly onto them.
+          pointer-events-none here so this div's own empty space (it spans the full viewport)
+          doesn't sit in front of the scatter icon layer behind it and steal their hover/clicks;
+          pointer-events-auto is restored on each actual piece of content below. */}
+      <div className="relative z-10 flex min-h-svh flex-col items-center px-6 pt-[16vh] text-center pointer-events-none">
         <h1
           ref={nameRef}
           style={nameLit}
-          className="rise-in font-display text-6xl leading-none font-bold sm:text-7xl"
+          className="rise-in pointer-events-auto font-display text-6xl leading-none font-bold sm:text-7xl"
         >
           Jessy Mangat
         </h1>
@@ -212,12 +215,12 @@ function App() {
         <p
           ref={subtitleRef}
           style={subtitleLit}
-          className="rise-in mt-3 font-mono text-xs tracking-widest uppercase [animation-delay:100ms]"
+          className="rise-in pointer-events-auto mt-3 font-mono text-xs tracking-widest uppercase [animation-delay:100ms]"
         >
           Senior Software Developer · Toronto, ON
         </p>
 
-        <div className="rise-in mt-8 flex flex-col gap-3 font-mono text-sm sm:flex-row sm:gap-6 [animation-delay:180ms]">
+        <div className="rise-in pointer-events-auto mt-8 flex flex-col gap-3 font-mono text-sm sm:flex-row sm:gap-6 [animation-delay:180ms]">
           <a
             ref={link1Ref}
             href="https://github.com/JessyMangat"
@@ -248,7 +251,7 @@ function App() {
             sizes step up at the md breakpoint for tablets vs phones. */}
         <div
           ref={trayRef}
-          className="no-scrollbar -mx-6 my-auto flex w-[calc(100%+3rem)] gap-5 overflow-x-auto overscroll-x-contain px-6 py-2 xl:hidden"
+          className="no-scrollbar pointer-events-auto -mx-6 my-auto flex w-[calc(100%+3rem)] gap-5 overflow-x-auto overscroll-x-contain px-6 py-2 xl:hidden"
           style={{
             WebkitMaskImage: 'linear-gradient(to right, transparent, black 28px, black calc(100% - 28px), transparent)',
             maskImage: 'linear-gradient(to right, transparent, black 28px, black calc(100% - 28px), transparent)',
